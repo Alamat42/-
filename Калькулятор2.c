@@ -4,12 +4,12 @@ float power(float base, int n);
 int main()
 {
     float answer;
-    float num[50];
+    float num[102];
     int point=0;
     int j=0, k=0;
-    char op[50];
+    char op[102];
     char c;
-    for(int v=0;v<50;++v)
+    for(int v=0;v<102;++v)
     {
         num[v]=0;
     }
@@ -19,11 +19,15 @@ int main()
         {
             if(c=='1'||c=='2'||c=='3'||c=='4'||c=='5'||c=='6'||c=='7'||c=='8'||c=='9'||c=='0')
             {
-                if(point>0)
+                if(point==0)
                 {
+                    num[j]=(num[j]*10+atoi(c));
+                }
+                else if(point>0)
+                {
+                    num[j]=num[j]+atoi(c)*power(0.1,point);
                     ++point;
                 }
-                num[j]=(num[j]*10+atoi(c))*power(0.1,point);
             }
             else
             {
@@ -32,11 +36,13 @@ int main()
         }
         else 
         {
+            
             if (c=='+'||c=='-'||c=='*'||c=='/'||c=='^')
             {
                 op[k]=c;
                 ++j;
                 ++k;
+                point=0;
             }
         }
     }
