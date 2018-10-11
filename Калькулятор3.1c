@@ -1,11 +1,12 @@
-#include <stdio.h> 
-double atoi(char c);
-double power(double base, int n);
-double expr();
-double add();
-double mul();
-char str[2000];
-int ind=0;
+#include <stdio.h>
+//написан совместно с товарищами с телеграмма
+double atoi(char c); //преобразование от символьного типа в double
+double power(double base, int n);// возведение в степень
+double expr(); //вычисление + и -
+double add(); //вычисление * и /
+double mul(); //извлечение чисел из массива
+char str[2000]; //массив вводимых данных
+int ind=0; // счетчик символов
 int main()
 {
     int i=0;
@@ -96,13 +97,13 @@ double mul()
 
 double atoi(char c)
 {
-    if(c<48||c>57)
+    if(c<'0'||c>'9')
     {
         return 0;
     }
     else
     {
-    double p=c-48;
+    double p=c-'0';
     return p;
     }
 }
