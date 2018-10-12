@@ -55,8 +55,8 @@ double add()
             ++ind;
             num=num/mul();
         }
-        return num;
     }
+    return num;
 }
 
 double mul()
