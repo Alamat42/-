@@ -1,12 +1,13 @@
-#include <stdio.h>
-//написан совместно с товарищами с телеграмма
-double atoi(char c); //преобразование от символьного типа в double
-double power(double base, int n);// возведение в степень
-double expr(); //вычисление + и -
-double add(); //вычисление * и /
-double mul(); //извлечение чисел из массива
-char str[2000]; //массив вводимых данных
-int ind=0; // счетчик символов
+#include <stdio.h> 
+//This calculator wos to written with comrad from t.me/ruworm 
+double chtod(char c);             //take char and return double
+double add();                     //1 lvl, addition, subtraction and brackets closing
+double mul();                     //2 lvl, multiplication and division
+double brc();                     //3 lvl, brackets processing
+double number();                  //4 lvl, char to number processing
+#define MAX 2000                  //maximum string size 
+char str[MAX];                    //input array
+int ind=0;                        //index 
 int main()
 {
     int i=0;
@@ -14,125 +15,98 @@ int main()
     {
         ++i;
     }
-    printf("=%g\n", expr());
+    printf("=%g\n", add());
 }
-double expr()
+double add()
 {
-    double num=add();
+    double num=mul();
     while(str[ind]=='+'||str[ind]=='-')
     {
         if(str[ind]=='+')
         {
             ind++;
-            num=num+add();
+            num=num+mul();
         }
         if(str[ind]=='-')
         {
             ind++;
-            num=num-add();
+            num=num-mul();
         }
     }
     if(str[ind]==')')
     {
         ++ind;
         return num;
-    }
-    return num;
-}
-
-double add()
-{
-    double num=mul();
-    while(str[ind]=='*'||str[ind]=='/')
-    {
-        if(str[ind]=='*')
-        {
-            ++ind;
-            num=num*mul();
-        }
-        if(str[ind]=='/')
-        {
-            ++ind;
-            num=num/mul();
-        }
     }
     return num;
 }
 
 double mul()
 {
-    int point=0;
+    double num=brc();
+    while(str[ind]=='*'||str[ind]=='/')
+    {
+        if(str[ind]=='*')
+        {
+            ++ind;
+            num=num*brc();
+        }
+        if(str[ind]=='/')
+        {
+            ++ind;
+            num=num/brc();
+        }
+    }
+    return num;
+}
+
+double brc()
+{
+    double num=number();
+    if(str[ind]=='(')
+    {
+        ++ind;
+        return add();
+    }
+    return num;
+}
+
+double number()
+{
+    int point=1;
     double num=0;
     while ((str[ind]>='0'&&str[ind]<='9')||str[ind]=='.'||str[ind]==',')
     {
         if(str[ind]>='0'&&str[ind]<='9')
         {
-            if(point==0)
+            if(point==1)
             {
-                num=(num*10+atoi(str[ind]));
+                num=(num*10+chtod(str[ind]));
             }
-            else if(point>0)
+            else if(point>1)
             {
-                num=num+atoi(str[ind])*power(0.1,point);
-                ++point;
+                num=num+chtod(str[ind])/point;
+                point=point*10;
             }
         }
         else
         {
-            ++point;
+            point=point*10;
         }
         ++ind;
-    }
-    if(str[ind]=='(')
-    {
-        ++ind;
-        return expr();
-    }
-    if(str[ind]==')')
-    {
-        return num;
-    }
+    } 
     return num;
 }
 
-double atoi(char c)
+double chtod(char c)
 {
-    if(c<'0'||c>'9')
+    if(c<48||c>57)
     {
         return 0;
     }
     else
     {
-    double p=c-'0';
+    double p=c-48;
     return p;
     }
 }
-
-double power(double base, int n)
-{
-    double p=1;
-    for(int i=0; i<n; ++i)
-    {
-        p=p*base;
-    }
-    return p;
-}
-        
-        
-        
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
