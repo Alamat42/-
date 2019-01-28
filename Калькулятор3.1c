@@ -5,18 +5,35 @@ double chtod(char c);             //take char and return double
 double add();                     //1 lvl, addition, subtraction and brackets closing
 double mul();                     //2 lvl, multiplication and division
 double mathf();                   //3 lvl, mafh functon: power, sin, cos, log and other
-double brc();                     //4 lvl, brackets processing
-double number();                  //5 lvl, char to number processing
+double var();                     //4 lvl, math constants (pi, e) and variable processing
+double brc();                     //5 lvl, brackets processing
+double number();                  //6 lvl, char to number processing
 #define MAX 2000                  //maximum string size 
 char str[MAX];                    //input array
-int ind=0;                        //index 
+int ind=0;                        //index
+char variable;                    //variable symbol
+double value;                     //variable value
 int main()
 {
     int i=0;
+    printf("Введите однобуквенную переменную: \n");
+    variable=getchar();
+    getchar();
+    printf("Введите значение переменной: \n");
+    i=0;
     while( (str[i]=getchar())!='\n')
     {
         ++i;
     }
+    value=add();
+    ind=0;
+    i=0;
+    printf("Введите выражение: \n");
+    while( (str[i]=getchar())!='\n')
+    {
+        ++i;
+    }
+    str[i+1]=0;
     printf("=%g\n", add());
 }
 double add()
@@ -64,57 +81,77 @@ double mul()
 
 double mathf()
 {
-    double num=brc();
+    double num=var();
     while(str[ind]=='^'||str[ind]=='s'||str[ind]=='c'||str[ind]=='t'||str[ind]=='l'||str[ind]=='e'||str[ind]=='a')
     {
         if(str[ind]=='^')
         {
             ++ind;
-            num=pow(num,brc());
+            num=pow(num,var());
         }
         else if(str[ind]=='s'&&str[ind+1]=='i'&&str[ind+2]=='n')
         {
             ind=ind+3;
-            num=sin(brc());
+            num=sin(var());
         }
         else if(str[ind]=='c'&&str[ind+1]=='o'&&str[ind+2]=='s')
         {
             ind=ind+3;
-            num=cos(brc());
+            num=cos(var());
         }
         else if(str[ind]=='t'&&str[ind+1]=='g')
         {
             ind=ind+2;
-            num=tan(brc());
+            num=tan(var());
         }
         else if(str[ind]=='c'&&str[ind+1]=='t'&&str[ind+2]=='g')
         {
             ind=ind+3;
-            num=1/tan(brc());
+            num=1/tan(var());
         }
         else if(str[ind]=='e'&&str[ind+1]=='x'&&str[ind+2]=='p')
         {
             ind=ind+3;
-            num=exp(brc());
+            num=exp(var());
         }
         else if(str[ind]=='l'&&str[ind+1]=='n')
         {
             ind=ind+2;
-            num=log(brc());
+            num=log(var());
         }
         else if(str[ind]=='l'&&str[ind+1]=='g')
         {
             ind=ind+2;
-            num=log10(brc());
+            num=log10(var());
         }
         else if(str[ind]=='s'&&str[ind+1]=='q'&&str[ind+2]=='r'&&str[ind+3]=='t')
         {
             ind=ind+4;
-            num=sqrt(brc());
+            num=sqrt(var());
         } 
     }
     return num;
 }    
+
+double var()
+{
+    double num=brc();
+    if(str[ind]=='p'&&str[ind+1]=='i')
+    {
+        ind=ind+2;
+        num=M_PI;
+    }
+    else if(str[ind]=='e'&&str[ind+1]!='x')
+    {
+        ++ind;
+        num=M_E;
+    }
+    else if(str[ind]==variable)
+    {
+        ++ind;
+        num=value;
+    }
+}
 
 double brc()
 {
