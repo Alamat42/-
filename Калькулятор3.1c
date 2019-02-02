@@ -247,13 +247,13 @@ double number()
 
 double chtod(char c)
 {
-    if(c<48||c>57)
+    if(c<'0'||c>'9')
     {
         return 0;
     }
     else
     {
-    double p=c-48;
+    double p=c-'0';
     return p;
     }
 }
